@@ -1,0 +1,61 @@
+{
+    "name":"audit-data-factory-integration-runtimes",
+    "properties":{
+       "displayName":"Azure Data Factory should use Self-Hosted Integration Runtimes for Linked Services definitions",
+       "description":"All linked services created in Data Factory should connect through a Self-Hosted Integration Runtime",
+       "mode":"All",
+       "metadata": {
+           "category": "Data Factory"
+       },
+       "parameters": {
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "allowedLinkedServiceResourceTypes": {
+          "type": "Array",
+          "metadata": {
+            "displayName": "Allowed linked service resource types",
+            "description": "The list of allowed linked service resource types."
+          },
+          "allowedValues": [
+            "AzureBlobFS",
+            "AzureBlobStorage",
+            "AzureSqlDatabase",
+            "Oracle",
+            "PostgreSql"
+          ]
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.DataFactory/factories/linkedservices"
+            },
+            {
+              "field": "Microsoft.DataFactory/factories/linkedservices/connectVia",
+              "exists": "false"
+            },
+            {
+              "field": "Microsoft.DataFactory/factories/linkedservices/type",
+              "in": "[parameters('allowedLinkedServiceResourceTypes')]"
+            }
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effect')]"
+        }
+      }
+    }
+}
