@@ -1,8 +1,7 @@
 {
-    "name":"audit-data-factory-integration-runtimes",
     "properties":{
        "displayName":"Azure Data Factory should use Self-Hosted Integration Runtimes for Linked Services definitions",
-       "description":"All linked services created in Data Factory should connect through a Self-Hosted Integration Runtime",
+       "description":"All linked services created in Data Factory should connect through a Self-Hosted Integration Runtime when possible",
        "mode":"All",
        "metadata": {
            "category": "Data Factory"
@@ -24,8 +23,8 @@
         "allowedLinkedServiceResourceTypes": {
           "type": "Array",
           "metadata": {
-            "displayName": "Allowed linked service resource types",
-            "description": "The list of allowed linked service resource types."
+            "displayName": "Linked services types to check for self-hosted IR",
+            "description": "This parameter should contain the list of all possible types of linked services to check for the use of self-hosted IR."
           },
           "allowedValues": [
             "AzureBlobFS",
