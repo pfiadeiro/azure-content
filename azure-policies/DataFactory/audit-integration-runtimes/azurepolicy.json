@@ -1,60 +1,60 @@
 {
-    "properties":{
-       "displayName":"Azure Data Factory should use Self-Hosted Integration Runtimes for Linked Services definitions",
-       "description":"All linked services created in Data Factory should connect through a Self-Hosted Integration Runtime when possible",
-       "mode":"All",
-       "metadata": {
-           "category": "Data Factory"
-       },
-       "parameters": {
-        "effect": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Effect",
-            "description": "Enable or disable the execution of the policy"
-          },
-          "allowedValues": [
-            "Audit",
-            "Deny",
-            "Disabled"
-          ],
-          "defaultValue": "Audit"
+  "properties": {
+    "displayName": "Azure Data Factory should use Self-Hosted Integration Runtimes for Linked Services definitions",
+    "description": "All linked services created in Data Factory should connect through a Self-Hosted Integration Runtime when possible",
+    "mode": "All",
+    "metadata": {
+      "category": "Data Factory"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         },
-        "allowedLinkedServiceResourceTypes": {
-          "type": "Array",
-          "metadata": {
-            "displayName": "Linked services types to check for self-hosted IR",
-            "description": "This parameter should contain the list of all possible types of linked services to check for the use of self-hosted IR."
-          },
-          "allowedValues": [
-            "AzureBlobFS",
-            "AzureBlobStorage",
-            "AzureSqlDatabase",
-            "Oracle",
-            "PostgreSql"
-          ]
-        }
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
       },
-      "policyRule": {
-        "if": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.DataFactory/factories/linkedservices"
-            },
-            {
-              "field": "Microsoft.DataFactory/factories/linkedservices/connectVia",
-              "exists": "false"
-            },
-            {
-              "field": "Microsoft.DataFactory/factories/linkedservices/type",
-              "in": "[parameters('allowedLinkedServiceResourceTypes')]"
-            }
-          ]
+      "allowedLinkedServiceResourceTypes": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Linked services types to check for self-hosted IR",
+          "description": "This parameter should contain the list of all possible types of linked services to check for the use of self-hosted IR."
         },
-        "then": {
-          "effect": "[parameters('effect')]"
-        }
+        "allowedValues": [
+          "AzureBlobFS",
+          "AzureBlobStorage",
+          "AzureSqlDatabase",
+          "Oracle",
+          "PostgreSql"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DataFactory/factories/linkedservices"
+          },
+          {
+            "field": "Microsoft.DataFactory/factories/linkedservices/connectVia",
+            "exists": "false"
+          },
+          {
+            "field": "Microsoft.DataFactory/factories/linkedservices/type",
+            "in": "[parameters('allowedLinkedServiceResourceTypes')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
       }
     }
+  }
 }
